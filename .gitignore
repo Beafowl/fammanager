@@ -1,3 +1,18 @@
+# ignore config file
+config.json
+
+# ignore contents of database
+postgresql/pgdata/*
+postgresqk/pgdata
+
+# screenshot
+screenshot/screenshot.jpg
+
+# status
+status/angel.png
+status/demon.png
+status/status.png
+
 # Logs
 logs
 *.log

@@ -1,0 +1,15 @@
+{
+    "token": "discord token",
+    "databaseClient": {
+        "user": "postgres",
+        "database": "fammanager",
+        "host": "host.docker.internal",
+        "password": "postgres",
+        "port": "5432",
+        "idleTimeoutMillis": 0,
+        "connectionTimeoutMillis": 0
+    },
+    "input": "input text channel",
+    "output": "output text channel",
+    "exceedment": "numerical value, amount that has to be paid if weekly donation will be exceeded and donator did not specify an amount"
+}

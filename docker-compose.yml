@@ -1,0 +1,23 @@
+version: '3.3'
+services:
+  db:
+    container_name: database
+    build: ./postgresql
+    restart: always
+    ports:
+      - '5432:5432'
+    environment: 
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/pgdata
+      - POSTGRES_DB=fammanager
+    volumes:
+      - ./postgresql/pgdata:/pgdata
+  discordbot:
+    container_name: discordbot
+    restart: always
+    build: .
+    depends_on: 
+      - db
+    links:
+      - db
