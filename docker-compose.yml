@@ -13,6 +13,7 @@ services:
       - POSTGRES_DB=fammanager
     volumes:
       - ./postgresql/pgdata:/pgdata
+      - /media/berkbuturak/Volume/fammanager/backup:/backup
   discordbot:
     container_name: discordbot
     restart: always

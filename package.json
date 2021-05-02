@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Beafowl/fammanager#readme",
   "dependencies": {
     "axios": "^0.21.1",
+    "backup": "^1.1.0",
     "chroma-js": "^2.1.1",
     "dateformat": "^4.5.1",
     "discord.js": "^12.5.1",

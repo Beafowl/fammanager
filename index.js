@@ -35,6 +35,10 @@ const { item } = require('./lib/item');
 
 const { a4 } = require('./lib/a4');
 
+// backup data
+
+const { backup, restore } = require('./lib/backup');
+
 // function for connecting to the database
 
 let pgClient;
@@ -148,14 +152,13 @@ discordClient.on('message', async (msg) => {
 
     const command = msg.content.split(' ');
 
-    if (command[0] == '!a4') // check a4 status
+    if (command[0] == '!a4' || command [0] == '!status') // check a4 status
         await a4(msg);
     
     // check if the input channel has been used
 
     if (msg.channel.name == input) {
    
-
         if (command[0] == '!add') { // !add [Name]: Adds a player to the donator list
 
             await add(pgClient, msg.author.tag, command[1], command[2], command[3], msg);
@@ -176,6 +179,13 @@ discordClient.on('message', async (msg) => {
 
             item(pgClient, command[1], command[2], command[3], msg);
 
+        } else if (command[0] == '!backup') {
+
+            backup(msg);
+
+        } else if (command[0] == '!restore') {
+
+            restore(msg);
         }
 
         const evaluation = await evaluate(pgClient);
