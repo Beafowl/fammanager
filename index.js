@@ -199,7 +199,7 @@ discordClient.on('message', async (msg) => {
 
     // Finances start
 
-    /*if (msg.channel.name == input) {
+    if (msg.channel.name == input) {
    
         if (command[0] == '!add') { // !add [Name]: Adds a player to the donator list
 
@@ -234,7 +234,7 @@ discordClient.on('message', async (msg) => {
         const newMessage = composeMessage(evaluation);
         outputMessage.edit(newMessage);
 
-    }*/
+    }
 
     // Finances end
 });
