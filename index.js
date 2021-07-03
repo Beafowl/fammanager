@@ -1,5 +1,5 @@
 // secret info
-const { token, databaseClient, input, output } = require('./config/config.json');
+const { token, databaseClient, input, output, birthdayChannel } = require('./config/config.json');
 
 // discord
 
@@ -11,6 +11,10 @@ discordClient.login(token);
 
 const { Client } = require('pg');
 
+// cron for birthday
+
+var cron = require('cron').CronJob;
+
 // helper functions
 
 const { print } = require('./lib/helper');
@@ -18,6 +22,10 @@ const { print } = require('./lib/helper');
 // database input functions
 
 const { add, remove, pay, reset } = require('./lib/input');
+
+// birthday announcements
+
+const { birthday } = require('./lib/birthday');
 
 // output function
 
@@ -141,6 +149,35 @@ discordClient.on('ready', async () => {
 
         console.error(e);
     });
+
+    // check for someones birthday at 2pm everyday
+
+    let job = new cron('0 14 * * *', async () => {
+
+        await pgClient.query('select * from birthday')
+        .then((res) => {
+
+            const today = new Date();
+
+            for(let i=0; i<res.rowCount; i++) {
+
+                let bday = new Date(res.rows[i].birthday_date);
+
+                if (today.getUTCMonth() == bday.getUTCMonth() && today.getUTCDate() == bday.getUTCDate()) {
+
+                    discordClient.channels.cache.each((test) => {
+
+                        if (test.name == birthdayChannel) { // output birthdays on this channel id
+
+                            discordClient.channels.cache.get(test.id).send(`@${res.rows[i].discord_name} hat heute Geburtstag. Herzlichen Grlückwunsch!`);
+                            
+                        }
+                    });
+                }
+            }
+        })
+    }, null, true);
+    job.start();
 });
 
 discordClient.on('message', async (msg) => {
@@ -152,10 +189,15 @@ discordClient.on('message', async (msg) => {
 
     const command = msg.content.split(' ');
 
+    // global commands, can be used in every channel
+
     if (command[0] == '!a4' || command [0] == '!status') // check a4 status
         await a4(msg);
     
-    // check if the input channel has been used
+    if (command[0] == '!birthday') // birthday announcements
+        await birthday(pgClient, msg, msg.author.tag, command[1]);
+
+    // Finances start
 
     if (msg.channel.name == input) {
    
@@ -191,5 +233,8 @@ discordClient.on('message', async (msg) => {
         const evaluation = await evaluate(pgClient);
         const newMessage = composeMessage(evaluation);
         outputMessage.edit(newMessage);
+
     }
+
+    // Finances end
 });

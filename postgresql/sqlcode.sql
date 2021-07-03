@@ -29,7 +29,7 @@ create table fammanager(
            + (case when extract(dow from Now()) < 5 then 0 else 7 end) || ' day' as interval)));
 	
 
-create table reminder(
-	date_to_remind date not null,
-	message text primary key
+create table birthday(
+	birthday_date date not null,
+	discord_name text primary key
 );

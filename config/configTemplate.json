@@ -11,5 +11,6 @@
     },
     "input": "input text channel",
     "output": "output text channel",
+    "birthday": "text channel for birthdays",
     "exceedment": "numerical value, amount that has to be paid if weekly donation will be exceeded and donator did not specify an amount"
 }

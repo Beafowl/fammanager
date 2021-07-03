@@ -10,4 +10,4 @@ RUN npm install -g backup
 
 COPY . .
 
-CMD ["npm", "start"]
+CMD ["node", "index.js"]

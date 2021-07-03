@@ -4,8 +4,9 @@
   "description": "Discord bot for managing families in NosTale",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js",
-    "start": "node index.js"
+    "test": "docker-compose up",
+    "start": "docker-compose up",
+    "build": "docker-compose build"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
     "axios": "^0.21.1",
     "backup": "^1.1.0",
     "chroma-js": "^2.1.1",
+    "cron": "^1.8.2",
     "dateformat": "^4.5.1",
     "desktop-screenshot": "^0.1.1",
     "discord.js": "^12.5.1",
