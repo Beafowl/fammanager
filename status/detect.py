@@ -35,7 +35,7 @@ def demon_status(imagepath):
     cv2.imwrite("output/demon.png", image_demon)
 
     # check first digit from left. if no digit detected, raid started
-    for pattern in range(1, 10):
+    for pattern in range(0, 10):
         sum = 0
         pattern_image = cv2.imread("pattern/" + str(pattern) + ".png")
         height_p, width_p, channels_p = pattern_image.shape
@@ -49,13 +49,9 @@ def demon_status(imagepath):
 
     # now check the second digit
 
-    #if first_digit == 1:
-    #    offset = 3
-    #else:
-    #    offset = 5
     offset = 5
 
-    for pattern in range(1, 10):
+    for pattern in range(0, 10):
         sum = 0
         pattern_image = cv2.imread("pattern/" + str(pattern) + ".png")
         height_p, width_p, channels_p = pattern_image.shape
@@ -99,7 +95,7 @@ def angel_status(imagepath):
     cv2.imwrite("output/demon.png", image_angel)
 
     # check first digit from left. if no digit detected, raid started
-    for pattern in range(1, 10):
+    for pattern in range(0, 10):
         sum = 0
         pattern_image = cv2.imread("pattern/" + str(pattern) + ".png")
         height_p, width_p, channels_p = pattern_image.shape
@@ -113,13 +109,9 @@ def angel_status(imagepath):
 
     # now check the second digit
 
-    #if first_digit == 1:
-    #    offset = 3
-    #else:
-    #    offset = 5
     offset = 5
 
-    for pattern in range(1, 10):
+    for pattern in range(0, 10):
         sum = 0
         pattern_image = cv2.imread("pattern/" + str(pattern) + ".png")
         height_p, width_p, channels_p = pattern_image.shape
@@ -154,16 +146,15 @@ async def home(request):
     else:
         return "Error while taking screenshot"
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8000)
+#if __name__ == "__main__":
+#    app.run(host='0.0.0.0', port=8000)
 
-'''
+
 print("Demon:")
-for i in range(1, 8):
+for i in range(1, 9):
     print(demon_status("samples/image" + str(i) + ".jpg"))
 
 
 print("Angel:")
-for i in range(1, 8):
+for i in range(1, 9):
     print(angel_status("samples/image" + str(i) + ".jpg"))
-'''
