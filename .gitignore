@@ -9,9 +9,7 @@ postgresql/pgdata
 screenshot/screenshot.jpg
 
 # status
-status/angel.png
-status/demon.png
-status/status.png
+status/output/*
 
 # Logs
 logs

@@ -1,26 +1,7 @@
 import cv2
-from flask import Flask
+from sanic import Sanic
+from sanic.response import json
 import requests
-
-app = Flask(__name__)
-
-@app.route("/a4")
-def home():
-    # request screenshot
-    r = requests.get('localhost')
-
-    if r.status_code == 200:
-        # check for status on the screenshot
-        demon = demon_status("../screenshot/screenshot.jpg")
-        angel = angel_status("../screenshot/screenshot.jpg")
-
-    return Flask.jsonify(
-        angel=angel,
-        demon=demon
-    )
-
-if __name__ == "__main__":
-    app.run()
 
 TOLERANCE = 10
 
@@ -49,6 +30,10 @@ def demon_status(imagepath):
                 else:
                     image_demon[y,x] = [ 0, 0, 0]
 
+    # debug output
+    
+    cv2.imwrite("output/demon.png", image_demon)
+
     # check first digit from left. if no digit detected, raid started
     for pattern in range(1, 10):
         sum = 0
@@ -64,10 +49,11 @@ def demon_status(imagepath):
 
     # now check the second digit
 
-    if first_digit == 1:
-        offset = 3
-    else:
-        offset = 5
+    #if first_digit == 1:
+    #    offset = 3
+    #else:
+    #    offset = 5
+    offset = 5
 
     for pattern in range(1, 10):
         sum = 0
@@ -108,6 +94,10 @@ def angel_status(imagepath):
                 else:
                     image_angel[y,x] = [ 0, 0, 0]
 
+    # debug output
+    
+    cv2.imwrite("output/demon.png", image_angel)
+
     # check first digit from left. if no digit detected, raid started
     for pattern in range(1, 10):
         sum = 0
@@ -123,10 +113,11 @@ def angel_status(imagepath):
 
     # now check the second digit
 
-    if first_digit == 1:
-        offset = 3
-    else:
-        offset = 5
+    #if first_digit == 1:
+    #    offset = 3
+    #else:
+    #    offset = 5
+    offset = 5
 
     for pattern in range(1, 10):
         sum = 0
@@ -146,6 +137,25 @@ def angel_status(imagepath):
         return second_digit
     else:
         return int(str(first_digit) + str(second_digit))
+
+
+app = Sanic(name="hamegululu")
+
+@app.route("/a4")
+async def home(request):
+    # request screenshot
+    r = requests.get('http://localhost')
+
+    if r.status_code == 200:
+        # check for status on the screenshot
+        demon = demon_status("../screenshot/screenshot.jpg")
+        angel = angel_status("../screenshot/screenshot.jpg")
+        return json({'demon': demon, 'angel': angel})
+    else:
+        return "Error while taking screenshot"
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8000)
 
 '''
 print("Demon:")
