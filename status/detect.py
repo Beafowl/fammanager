@@ -4,7 +4,7 @@ from sanic.response import json
 import requests
 
 TOLERANCE = 10
-DEBUG = False;
+DEBUG = True
 
 # threshold and rgb image
 def isWhite(rgb_val):
@@ -42,7 +42,7 @@ def demon_status(imagepath):
         height_p, width_p, channels_p = pattern_image.shape
         for x in range(0, width_p):
             for y in range(0, height_p):
-                sum += pattern_image[y,x][0] ^ image_demon[y, x][0]
+                sum += pattern_image[y,x][0] ^ image_demon[y, x][0] 
         # if every pixel was identical, the sum has to be zero
         if sum == 0:
             first_digit = pattern
@@ -97,7 +97,7 @@ def angel_status(imagepath):
 
     # debug output
     
-    cv2.imwrite("output/demon.png", image_angel)
+    cv2.imwrite("output/angel.png", image_angel)
 
     # check first digit from left. if no digit detected, raid started
     for pattern in range(1, 10):
@@ -120,7 +120,7 @@ def angel_status(imagepath):
     #    offset = 5
     offset = 5
 
-    for pattern in range(1, 10):
+    for pattern in range(0, 10):
         sum = 0
         pattern_image = cv2.imread("pattern/" + str(pattern) + ".png")
         height_p, width_p, channels_p = pattern_image.shape
@@ -156,15 +156,17 @@ if not DEBUG:
             return "Error while taking screenshot"
 
     if __name__ == "__main__":
-        app.run(host='0.0.0.0', port=8000)
+        #app.run(host='0.0.0.0', port=8000)
+        a = angel_status("samples/image1.jpg")
+        d = demon_status("samples/image1.jpg")
+
+        print(a)
+        print(d)
         
 else:
 
-    print("Demon:")
-    for i in range(1, 8):
+    for i in range(1, 9):
+        print("image" + str(i) + ":")
         print(demon_status("samples/image" + str(i) + ".jpg"))
-
-
-    print("Angel:")
-    for i in range(1, 8):
         print(angel_status("samples/image" + str(i) + ".jpg"))
+        print("-------------------------")
